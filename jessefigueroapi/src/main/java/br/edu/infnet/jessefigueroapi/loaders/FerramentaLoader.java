@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import org.springframework.core.io.Resource;
@@ -20,18 +21,16 @@ public class FerramentaLoader implements ApplicationRunner {
     private String path;
 
     private final FerramentaService ferramentaService;
-    private final ResourceLoader resourceLoader;
 
-    public FerramentaLoader(FerramentaService ferramentaService, ResourceLoader resourceLoader) {
+    public FerramentaLoader(FerramentaService ferramentaService) {
         this.ferramentaService = ferramentaService;
-        this.resourceLoader = resourceLoader;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        Resource resource = resourceLoader.getResource(path);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        FileReader file = new FileReader("ferramentas.csv");
+        BufferedReader reader = new BufferedReader(file);
 
         String line = reader.readLine();
         String[] fields = null;
@@ -49,12 +48,12 @@ public class FerramentaLoader implements ApplicationRunner {
             ferramenta.setDescricao(fields[5]);
             ferramenta.setDisponivel(Boolean.valueOf(fields[6]));
 
-            ferramentaService.incluir(ferramenta);
+            ferramentaService.insert(ferramenta);
 
             line = reader.readLine();
         }
 
-        Collection<Ferramenta> ferramentas = ferramentaService.obterLista();
+        Collection<Ferramenta> ferramentas = ferramentaService.findAll();
 
         ferramentas.forEach(System.out::println);
 
