@@ -29,7 +29,7 @@ public class FerramentaLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        FileReader file = new FileReader("ferramentas.csv");
+        FileReader file = new FileReader(path);
         BufferedReader reader = new BufferedReader(file);
 
         String line = reader.readLine();
