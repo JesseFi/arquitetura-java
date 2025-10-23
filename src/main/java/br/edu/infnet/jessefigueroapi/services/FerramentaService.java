@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class FerramentaService implements CrudService<Ferramenta, Integer> {
 
-    private final Map<Integer, Ferramenta> ferramentas = new ConcurrentHashMap<Integer, Ferramenta>();
+    private final ConcurrentHashMap<Integer, Ferramenta> ferramentas = new ConcurrentHashMap<Integer, Ferramenta>();
     private final AtomicInteger nextId = new AtomicInteger(1);
 
     @Override
